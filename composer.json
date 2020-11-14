@@ -1,0 +1,24 @@
+{
+    "name": "programster/pgsql-objects",
+    "type": "library",
+    "description": "Package for making it easier to work with PostgreSQL.",
+    "keywords": ["pgsql", "postgresql"],
+    "homepage": "https://github.com/programster/package-pgsqli",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Stuart Page",
+            "email": "sdpagent@gmail.com",
+            "homepage": "https://blog.programster.org",
+            "role": "God"
+        }
+    ],
+    "require": {
+        "php": ">=7.2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Programster\\Pgsqli\\": "src/"
+        }
+    }
+}
