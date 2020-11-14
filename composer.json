@@ -1,5 +1,5 @@
 {
-    "name": "programster/pgsql-objects",
+    "name": "programster/pgsqli",
     "type": "library",
     "description": "Package for making it easier to work with PostgreSQL.",
     "keywords": ["pgsql", "postgresql"],
