@@ -376,30 +376,6 @@ class Pgsqli
 
 
     /**
-     * Updates records specified by assoc_array which has field=>value.
-     * If options is specified, pg_convert() is applied to assoc_array with the specified flags.
-     * By default pg_update() passes raw values. Values must be escaped or PGSQL_DML_ESCAPE option must be specified.
-     * PGSQL_DML_ESCAPE quotes and escapes parameters/identifiers. Therefore, table/column names became case sensitive.
-     * Note that neither escape nor prepared query can protect LIKE query, JSON, Array, Regex, etc. These parameters
-     * should be handled according to their contexts. i.e. Escape/validate values.
-     * https://www.php.net/manual/en/function.pg-update.php
-     * @param string $table_name - Name of the table into which to update rows.
-     * @param array $data - An array whose keys are field names in the table table_name, and whose values are what
-     * matched rows are to be updated to.
-     * @param array $condition - An array whose keys are field names in the table table_name, and whose values are the
-     * conditions that a row must meet to be updated.
-     * @param int $options - Any number of PGSQL_CONV_FORCE_NULL, PGSQL_DML_NO_CONV, PGSQL_DML_ESCAPE, PGSQL_DML_EXEC,
-     * PGSQL_DML_ASYNC or PGSQL_DML_STRING combined. If PGSQL_DML_STRING is part of the options then query string is
-     * returned. When PGSQL_DML_NO_CONV or PGSQL_DML_ESCAPE is set, it does not call pg_convert() internally.
-     * @return - Returns TRUE on success or FALSE on failure. Returns string if PGSQL_DML_STRING is passed via options.
-     */
-    public function update(string $table_name, array $data, array $condition, int $options = PGSQL_DML_EXEC)
-    {
-        return pg_update($this->m_connection, $table_name, $data, $condition, $options);
-    }
-
-
-    /**
      *
      * @param string $query
      * @return \Programster\Pgsqli\Result
@@ -415,6 +391,30 @@ class Pgsqli
         }
 
         return new PgResult($result);
+    }
+
+
+    /**
+     * Updates records specified by assoc_array which has field=>value.
+     * If options is specified, pg_convert() is applied to assoc_array with the specified flags.
+     * By default pg_update() passes raw values. Values must be escaped or PGSQL_DML_ESCAPE option must be specified.
+     * PGSQL_DML_ESCAPE quotes and escapes parameters/identifiers. Therefore, table/column names became case sensitive.
+     * Note that neither escape nor prepared query can protect LIKE query, JSON, Array, Regex, etc. These parameters
+     * should be handled according to their contexts. i.e. Escape/validate values.
+     * https://www.php.net/manual/en/function.pg-update.php
+     * @param string $tableName - Name of the table into which to update rows.
+     * @param array $data - An array whose keys are field names in the table table_name, and whose values are what
+     * matched rows are to be updated to.
+     * @param array $condition - An array whose keys are field names in the table table_name, and whose values are the
+     * conditions that a row must meet to be updated.
+     * @param int $options - Any number of PGSQL_CONV_FORCE_NULL, PGSQL_DML_NO_CONV, PGSQL_DML_ESCAPE, PGSQL_DML_EXEC,
+     * PGSQL_DML_ASYNC or PGSQL_DML_STRING combined. If PGSQL_DML_STRING is part of the options then query string is
+     * returned. When PGSQL_DML_NO_CONV or PGSQL_DML_ESCAPE is set, it does not call pg_convert() internally.
+     * @return - Returns TRUE on success or FALSE on failure. Returns string if PGSQL_DML_STRING is passed via options.
+     */
+    public function update(string $tableName, array $data, array $condition, int $options = PGSQL_DML_EXEC)
+    {
+        return pg_update($this->m_connection, $tableName, $data, $condition, $options);
     }
 
 
@@ -506,26 +506,6 @@ class Pgsqli
     public function untrace() : bool
     {
         return pg_untrace($this->m_connection);
-    }
-
-
-    /**
-     * Updates records that matches condition with data. If options is specified, pg_convert() is applied to data with
-     * specified options.
-     * https://www.php.net/manual/en/function.pg-update.php
-     * @param string $tableName - Name of the table into which to update rows.
-     * @param array $data - An array whose keys are field names in the table table_name, and whose values are what
-     * matched rows are to be updated to.
-     * @param array $condition - An array whose keys are field names in the table table_name, and whose values are the
-     * conditions that a row must meet to be updated.
-     * @param int $options - Any number of PGSQL_CONV_FORCE_NULL, PGSQL_DML_NO_CONV, PGSQL_DML_ESCAPE, PGSQL_DML_EXEC,
-     * PGSQL_DML_ASYNC or PGSQL_DML_STRING combined. If PGSQL_DML_STRING is part of the options then query string is
-     * returned. When PGSQL_DML_NO_CONV or PGSQL_DML_ESCAPE is set, it does not call pg_convert() internally.
-     * @return - TRUE on success or FALSE on failure. Returns string if PGSQL_DML_STRING is passed via options.
-     */
-    public function update(string $tableName, array $data, array $condition, int $options = PGSQL_DML_EXEC)
-    {
-        return pg_update($this->m_connection);
     }
 
 
