@@ -11,13 +11,63 @@ class Pgsqli
     private $m_connection;
 
 
-    public function __construct(string $host, string $username, string $password, string $dbname, int $port=5432)
+    /**
+     *
+     * @param string $host
+     * @param string $username
+     * @param string $password
+     * @param string $dbname
+     * @param int $port
+     * @throws PgException
+     */
+    public function __construct(
+        string $host,
+        string $username,
+        string $password,
+        string $dbname,
+        int $port=5432,
+        bool $useUtf8 = true,
+        bool $forceNew = false,
+        bool $useAsync = false
+    )
     {
+        if ($forceNew && $useAsync)
+        {
+            $forceNew = false;
+        }
 
+        $connString =
+            "host=" . $host
+            . " dbname=" . $db_name
+            . " user=" . $user
+            . " password=" . $password
+            . " port=" . $port;
+
+        if ($useUtf8)
+        {
+            $connString .= " options='--client_encoding=UTF8'";
+        }
+
+        if ($useAsync)
+        {
+            $connection = pg_connect($connString, PGSQL_CONNECT_ASYNC);
+        }
+        elseif ($forceNew)
+        {
+            $connection = pg_connect($connString, PGSQL_CONNECT_FORCE_NEW);
+        }
+        else
+        {
+            $connection = pg_connect($connString);
+        }
+
+        if ($connection == false)
+        {
+            throw new PgException("Failed to initialize database connection. Please check your connecton details.");
+        }
+
+        $this->m_connection = $connection;
     }
-
-
-
 
 
     /**
